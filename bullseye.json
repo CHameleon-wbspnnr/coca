@@ -1,0 +1,5 @@
+{
+	"cache": "/var/cache/apt/",
+	"debootstrap": ["arm64", "http://ports.ubuntu.com/ubuntu-ports"],
+	"post": ["debian"]
+}

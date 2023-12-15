@@ -1,0 +1,10 @@
+{
+	"script": [
+		"ln -fs /usr/share/zoneinfo/America/New_York /etc/localtime",
+		"TZ=Europe/Paris ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone",
+		"apt update -y",
+	       	"DEBIAN_FRONTEND=noninteractive apt-get upgrade -y",
+		"DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends ca-certificates gnupg wget ubuntu-unity-desktop gdm3 oem-config-gtk",
+	       	"apt clean -y"
+	]
+}

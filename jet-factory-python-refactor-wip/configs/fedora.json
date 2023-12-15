@@ -1,0 +1,16 @@
+{
+	"url": "https://download.fedoraproject.org/pub/fedora/linux/releases/35/Workstation/aarch64/images/Fedora-Workstation-35-1.2.aarch64.raw.xz",
+	"sig": "",
+	"cache": "/var/cache/dnf/",
+	"script": [
+        "dnf --refresh -y upgrade",
+		"dnf remove -y @gnome-desktop",
+        "dnf install --skip-broken -y @kde-desktop",
+		"dnf -y --allowerasing install initial-setup-gui openbox onboard lightdm lightdm-gtk libappindicator-gtk3 chromium alsa-plugins-pulseaudio pulseaudio pulseaudio-module-x11 pulseaudio-utils v4l-utils xrandr xinput",
+		"rm /etc/fstab",
+		"touch /etc/systemd/zram-generator.conf",
+		"systemctl disable sddm gdm",
+		"systemctl enable bluetooth NetworkManager upower initial-setup lightdm",
+		"dnf -y clean all"
+	]
+}

@@ -1,0 +1,67 @@
+stages:
+  - prepare
+  - build
+
+deploy:
+  image: docker:latest
+  stage: prepare
+  services:
+    - name: docker:dind
+      command: ["--experimental"]
+  variables:
+    BUILDX_VERSION: "v0.4.2"
+    DOCKER_BUILDKIT: 1
+    BASE_CONTAINER: ""
+  before_script:
+    - apk add --update curl && rm -rf /var/cache/apk/*
+    - curl -sSLo docker-buildx "https://github.com/docker/buildx/releases/download/${BUILDX_VERSION}/buildx-${BUILDX_VERSION}.linux-amd64"
+    - chmod a+x docker-buildx
+    - mkdir -p ~/.docker/cli-plugins
+    - mv docker-buildx ~/.docker/cli-plugins/docker-buildx
+    - docker buildx install
+    - docker login -u gitlab-ci-token -p "${CI_JOB_TOKEN}" "${CI_REGISTRY}"
+    - docker buildx create --use --name mybuilder
+  script:
+    - docker buildx build --platform linux/arm64,linux/amd64 --push -t "${CI_REGISTRY_IMAGE}:${CI_COMMIT_BRANCH}" .
+
+# Distro builds meta stage
+.build:
+  image:
+    name: "$CI_REGISTRY_IMAGE:$CI_COMMIT_BRANCH"
+    entrypoint: [""]
+  stage: build
+  tags:
+    - arm64
+  variables:
+    DEVICE: ""
+    DISTRO: ""
+  services:
+    - docker:dind
+  script:
+    - cd /out
+    - python3 -m jetfactory -b $DEVICE $DISTRO
+    - mkdir -p /distro/$DISTRO/nightly/
+    - cp linux/*.7z /distro/$DISTRO/nightly/
+
+# Icosa builds meta stage
+.build-icosa:
+  extends: .build
+  variables:
+    DEVICE: "icosa"
+
+fedora:
+  extends: .build-icosa
+  tags:
+    - Node1
+  variables:
+    DISTRO: fedora
+
+focal:
+  extends: .build-icosa
+  variables:
+    DISTRO: focal
+
+leap:
+  extends: .build-icosa
+  variables:
+    DISTRO: leap

@@ -1,0 +1,5 @@
+{
+	"cache": "/var/cache/apt/",
+	"url": "http://cdimage.ubuntu.com/ubuntu-base/releases/20.04/release/ubuntu-base-20.04.4-base-arm64.tar.gz",
+	"pre": ["debian"]
+}

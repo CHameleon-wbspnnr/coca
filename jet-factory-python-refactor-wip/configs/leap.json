@@ -1,0 +1,6 @@
+{
+	"url": "http://mirror.datto.com/opensuse/distribution/leap/15.3/appliances/openSUSE-Leap-15.3-ARM-GNOME.aarch64-rootfs.aarch64.tar.xz",
+	"sig": "",
+	"cache": "/var/cache/zypp/",
+	"pre": ["opensuse"]
+}

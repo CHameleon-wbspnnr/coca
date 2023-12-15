@@ -1,0 +1,6 @@
+{
+	"script": [
+		"sed -i 's/; default-sample-rate.*/default-sample-rate = 48000/g' /etc/pulse/daemon.conf",
+		"zypper -n clean -a"
+	]
+}

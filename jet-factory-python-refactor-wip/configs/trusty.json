@@ -1,0 +1,10 @@
+{
+	"url": "http://cdimage.ubuntu.com/ubuntu-base/releases/14.04.1/release/ubuntu-base-14.04.6-base-arm64.tar.gz",
+	"cache": "/var/cache/apt/",
+	"script": [
+		"apt update -y",
+	       	"apt upgrade -y",
+		"apt install --install-suggests -y ubuntu-desktop lightdm xinput x11-session-utils vim nano",
+		"update-rc.d lightdm defaults"
+	]
+}

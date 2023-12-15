@@ -1,0 +1,6 @@
+patool
+clint
+sh
+requests
+PyInquirer
+envbash
